@@ -1,0 +1,292 @@
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #222;
+  color: #fff;
+  text-align: center;
+  padding-top: 50px;
+}
+
+h1 {
+  font-size: 3em;
+  margin-bottom: 20px;
+}
+
+.slot-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px auto;
+}
+
+.slot {
+  font-size: 4em;
+  background: #333;
+  border: 3px solid #fff;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 0 10px;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.slot-item {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+@keyframes slotSpin {
+  0% {
+    transform: translateY(-120px) scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(0) scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(120px) scale(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes slotStop {
+  0% {
+    transform: translateY(-120px) scale(0.8);
+    opacity: 0;
+  }
+  10% {
+    transform: translateY(-80px) scale(0.9);
+    opacity: 0.3;
+  }
+  30% {
+    transform: translateY(-40px) scale(0.95);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-20px) scale(0.98);
+    opacity: 0.8;
+  }
+  80% {
+    transform: translateY(-5px) scale(1.03);
+    opacity: 1;
+  }
+  90% {
+    transform: translateY(2px) scale(1.01);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px 5px rgba(255, 215, 0, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.5);
+  }
+}
+
+.spinning {
+  animation: glowPulse 1s infinite;
+  border-color: gold;
+}
+
+.spinning .slot-item {
+  animation: slotSpin 0.15s linear infinite;
+}
+
+.info {
+  position: relative;
+  margin-top: 30px;
+  font-size: 1.2em;
+}
+
+select,
+button {
+  padding: 10px;
+  font-size: 1em;
+  margin: 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+button {
+  background: #28a745;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: #218838;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+}
+
+button:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: scale(1);
+  box-shadow: none;
+}
+
+.warning {
+  color: #ff4d4d;
+}
+
+@keyframes smallWin {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes mediumWin {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 5px 2px gold;
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px 5px gold;
+  }
+}
+
+@keyframes bigWin {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.15) rotate(-2deg);
+  }
+  50% {
+    transform: scale(1.2) rotate(0deg);
+  }
+  75% {
+    transform: scale(1.15) rotate(2deg);
+  }
+}
+
+@keyframes jackpotWin {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  10% {
+    transform: scale(1.1);
+    filter: brightness(1.5);
+  }
+  20% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  30% {
+    transform: scale(1.1);
+    filter: brightness(1.5);
+  }
+  40% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.2);
+    filter: brightness(1.8);
+  }
+  60% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  70% {
+    transform: scale(1.1);
+    filter: brightness(1.5);
+  }
+  80% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  90% {
+    transform: scale(1.1);
+    filter: brightness(1.5);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+.win-text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -100%;
+  margin: 0 auto;
+  font-size: 4em;
+  font-weight: bold;
+  color: gold;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+  opacity: 0;
+  z-index: 10;
+  text-align: center;
+}
+
+@keyframes winTextAnimation {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+.small-win {
+  animation: smallWin 0.5s ease;
+}
+
+.medium-win {
+  animation: mediumWin 1s ease;
+  border-color: gold;
+}
+
+.big-win {
+  animation: bigWin 1.2s ease;
+  border-color: gold;
+}
+
+.jackpot-win {
+  animation: jackpotWin 2s ease;
+  border-color: gold;
+}
+
+#message {
+  height: 1.5em;
+  line-height: 1.5em;
+  margin: 0;
+  overflow: hidden;
+}

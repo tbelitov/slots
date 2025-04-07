@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Slot Machine</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #222;
+            color: #fff;
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .slot-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px auto;
+        }
+
+        .slot {
+            font-size: 4em;
+            background: #333;
+            border: 3px solid #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 0 10px;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .info {
+            margin-top: 30px;
+            font-size: 1.2em;
+        }
+
+        select, button {
+            padding: 10px;
+            font-size: 1em;
+            margin: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        button {
+            background: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        .warning {
+            color: #ff4d4d;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎰 Slot Machine 🎰</h1>
+
+    <div class="slot-container">
+        <div class="slot" id="slot1">🍒</div>
+        <div class="slot" id="slot2">🍋</div>
+        <div class="slot" id="slot3">🍉</div>
+    </div>
+
+    <div>
+        <label for="bid">Select Bid:</label>
+        <select id="bid">
+            <option value="0.4">0.40</option>
+            <option value="0.8">0.80</option>
+            <option value="1.2">1.20</option>
+            <option value="1.6">1.60</option>
+            <option value="2.0">2.00</option>
+        </select>
+        <button onclick="spin()">Spin</button>
+    </div>
+
+    <div class="info">
+        <p>Balance: $<span id="balance">20.00</span></p>
+        <p>Last Win: $<span id="lastWin">0.00</span></p>
+        <p id="message" class="warning"></p>
+    </div>
+
+    <audio id="spinSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_b6e7f582f1.mp3"></audio>
+    <audio id="winSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_07bba17496.mp3"></audio>
+
+    <script>
+        const weightedSymbols = [
+            ...Array(20).fill('🍓'),
+            ...Array(15).fill('🍊'),
+            ...Array(10).fill('🍒'),
+            ...Array(8).fill('🍉'),
+            ...Array(6).fill('🍋'),
+            ...Array(4).fill('🍇'),
+            ...Array(2).fill('💰')
+        ];
+
+        const multipliers = {
+            '🍓': 1,
+            '🍊': 1.5,
+            '🍒': 2,
+            '🍉': 2.5,
+            '🍋': 3,
+            '🍇': 4,
+            '💰': 10
+        };
+
+        let balance = 20.00;
+
+        function getRandomSymbol() {
+            const index = Math.floor(Math.random() * weightedSymbols.length);
+            return weightedSymbols[index];
+        }
+
+        function spin() {
+            const bid = parseFloat(document.getElementById('bid').value);
+            const message = document.getElementById('message');
+
+            if (balance < bid) {
+                message.textContent = "Not enough balance!";
+                return;
+            }
+
+            const spinAudio = document.getElementById('spinSound');
+            spinAudio.currentTime = 0;
+            spinAudio.play();
+
+            const s1 = getRandomSymbol();
+            const s2 = getRandomSymbol();
+            const s3 = getRandomSymbol();
+
+            document.getElementById('slot1').textContent = s1;
+            document.getElementById('slot2').textContent = s2;
+            document.getElementById('slot3').textContent = s3;
+
+            let win = 0;
+            if (s1 === s2 && s1 === s3) {
+                win = bid * (multipliers[s1] || 0);
+
+                const winAudio = document.getElementById('winSound');
+                setTimeout(() => {
+                    winAudio.currentTime = 0;
+                    winAudio.play();
+                }, 300);
+            }
+
+            balance = balance - bid + win;
+
+            document.getElementById('balance').textContent = balance.toFixed(2);
+            document.getElementById('lastWin').textContent = win.toFixed(2);
+            message.textContent = "";
+
+            if (balance < 0.4) {
+                message.textContent = "You don't have enough balance. Game over!";
+            }
+        }
+    </script>
+</body>
+</html>

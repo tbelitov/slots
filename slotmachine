@@ -92,9 +92,6 @@
         <p id="message" class="warning"></p>
     </div>
 
-    <audio id="spinSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_b6e7f582f1.mp3"></audio>
-    <audio id="winSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_07bba17496.mp3"></audio>
-
     <script>
         const weightedSymbols = [
             ...Array(20).fill('🍓'),
@@ -132,7 +129,10 @@
                 return;
             }
 
-            const spinAudio = document.getElementById('spinSound');
+            const spinAudio = new Audio('spin.wav');
+            const winAudio = new Audio('win.wav');
+
+            spinAudio.volume = 0.45;
             spinAudio.currentTime = 0;
             spinAudio.play();
 
@@ -148,9 +148,8 @@
             if (s1 === s2 && s1 === s3) {
                 win = bid * (multipliers[s1] || 0);
 
-                const winAudio = document.getElementById('winSound');
+                winAudio.currentTime = 0;
                 setTimeout(() => {
-                    winAudio.currentTime = 0;
                     winAudio.play();
                 }, 300);
             }

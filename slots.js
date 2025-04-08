@@ -134,6 +134,27 @@ function spin() {
         winText = "ROW!";
       }
     }
+    else if (
+      (s1 === "💰" && s2 === s3 && s2 !== "💰") ||
+      (s3 === "💰" && s1 === s2 && s1 !== "💰")
+    ) {
+      let matchSymbol = "";
+
+      if (s1 === "💰" && s2 === s3) {
+        matchSymbol = s2;
+      } else if (s3 === "💰" && s1 === s2) {
+        matchSymbol = s1;
+      }
+
+      const matchMultiplier = multipliers[matchSymbol] || 0;
+      const bonusMultiplier = 0.8;
+
+      win = bid * ((matchMultiplier / 2) + bonusMultiplier);
+
+      winMessage = "Money bag bonus & two matching symbols!";
+      winClass = "small-win";
+      winText = "BONUS & MATCH!";
+    }
     else if (s1 === s2 || s2 === s3) {
       const matchSymbol = s1 === s2 ? s1 : s2;
       const multiplier = multipliers[matchSymbol] * 0.5 || 0;

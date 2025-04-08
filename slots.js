@@ -186,8 +186,6 @@ function spin() {
       }, 1000);
     }
 
-    balance = balance - bid + win;
-
     setTimeout(() => {
       document.getElementById("balance").textContent = balance.toFixed(2);
       document.getElementById("lastWin").textContent = win.toFixed(2);

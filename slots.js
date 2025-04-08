@@ -191,9 +191,13 @@ function spin() {
       document.getElementById("lastWin").textContent = win.toFixed(2);
       message.textContent = winMessage;
 
-      spinAudio.pause();
+      setTimeout(() => {
+        spinAudio.pause();
+      }, 150);
 
-      document.getElementById("spinButton").disabled = false;
+      setTimeout(() => {
+        document.getElementById("spinButton").disabled = false;
+      }, 150);
 
       if (balance < 0.4) {
         message.textContent = "You don't have enough balance. Game over!";
